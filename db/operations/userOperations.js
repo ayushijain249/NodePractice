@@ -6,7 +6,7 @@ const addUser = (userDetails, response) => {
         if(err){
             response.status(500).send({status: "failure "});
         }else{
-            response.send({status: "success",userSaved: doc});
+            response.status(201).send({status: "success",userSaved: doc});
         }
     });
 };
@@ -27,7 +27,28 @@ const findUser = ({ name }, response) => {
     });
 };
 
+const authenticateUser = ({username, password}, response) => {
+    users.find({username}, (err,doc) => {
+        if(err){
+            response.status(500).send({status: "Internal Server error!"});
+        } else {
+            if(doc.length > 0){
+                if(doc[0].password == password){
+                    response.status(200).send("User Authenticated");
+                }
+                else{
+                    response.status(200).send("Authentication failed");
+                }
+            }else {
+                response.status(200).send("User does not exist");
+            }
+        }
+
+    })
+};
+
 module.exports = {
     addUser,
-    findUser
+    findUser,
+    authenticateUser
 }

@@ -4,13 +4,19 @@ const Schema = connection.Schema;
 
 const userSchema = new Schema({
     name: String,
-    email: String,
-    address: String,
+    email: {
+      type: String, 
+      unique: true
+    },
     phone: Number,
+    username: {
+      type: String, 
+      unique: true
+    },
     password: String
   });
 
-  const userModel = connection.model("users",userSchema);
+  const users = connection.model("users",userSchema);
 
-  module.exports = userModel;
+  module.exports = users;
   
